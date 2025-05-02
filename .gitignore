@@ -1,0 +1,22 @@
+node_modules
+.DS_Store
+distribution
+.eslintcache
+env-config.js
+public/env-config.js
+.vscode/*
+.vscode/settings.json
+.npm
+build
+
+# Storybook
+storybook.log
+build-storybook.log
+
+# TypeScript
+*.tsbuildinfo
+tsconfig.tsbuildinfo
+
+# Cache
+.cache
+node_modules/.cache

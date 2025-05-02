@@ -1,0 +1,28 @@
+{
+    "compilerOptions": {
+      "baseUrl": ".",
+      "target": "es6",
+      "lib": ["dom", "dom.iterable", "esnext"],
+      "paths": {
+        "~/*": ["./src/*"]
+      },
+      "types": ["vite/client", "node", "vitest", "react", "react-dom"], 
+      "noUnusedParameters": false,
+      "allowJs": true,
+      "skipLibCheck": true,
+      "esModuleInterop": true,
+      "allowSyntheticDefaultImports": true,
+      "strict": true,
+      "forceConsistentCasingInFileNames": true,
+      "module": "esnext",
+      "moduleResolution": "node",
+      "resolveJsonModule": true,
+      "isolatedModules": true,
+      "noEmit": true,
+      "jsx": "react-jsx",
+      "noFallthroughCasesInSwitch": true,
+      "useUnknownInCatchVariables": false
+    },
+    "include": ["src"]
+  }
+  

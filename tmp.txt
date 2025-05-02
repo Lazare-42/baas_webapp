@@ -1,0 +1,47 @@
+diff --git a/frontend/baas/webapp/src/components/Atoms/Table/TableLayout.tsx b/frontend/baas/webapp/src/components/Atoms/Table/TableLayout.tsx
+index cbbe1d4bc..dba479648 100644
+--- a/frontend/baas/webapp/src/components/Atoms/Table/TableLayout.tsx
++++ b/frontend/baas/webapp/src/components/Atoms/Table/TableLayout.tsx
+@@ -661,13 +661,6 @@ export const TableLayout: React.FC<TableLayoutProps> = ({
+                         style={{ 
+                             width: table.getTotalSize(),
+                             minWidth: "100%",
+-                            background: `repeating-linear-gradient(
+-                                to bottom,
+-                                var(--chakra-colors-baas-neutral-900) 0px 40px,
+-                                var(--chakra-colors-baas-neutral-500) 40px 80px
+-                            )`,
+-                            backgroundSize: "100% 80px",
+-                            backgroundRepeat: "repeat-y",
+                             borderRight: "1px solid var(--chakra-colors-baas-neutral-700)"
+                         }}>
+                         <Thead
+@@ -705,8 +698,9 @@ export const TableLayout: React.FC<TableLayoutProps> = ({
+                             position="relative"
+                             display="grid"
+                             w="full"
+-                            style={{ 
+-                                width: table.getTotalSize()
++                            style={{
++                                width: "100%",
++                                minWidth: table.getTotalSize()
+                             }}
+                         >
+                             {rowVirtualizer.getVirtualItems().map((virtualRow) => {
+@@ -721,12 +715,12 @@ export const TableLayout: React.FC<TableLayoutProps> = ({
+                                         display="flex"
+                                         border="none"
+                                         w="full"
++                                        h="40px"
++                                        bg={virtualRow.index % 2 === 0 ? 'baas.neutral.900' : 'baas.neutral.500'}
+                                         style={{ 
+-                                            width: table.getTotalSize(),
+-                                            minWidth: "100%",
+-                                            flex: 1
++                                            width: "100%",
++                                            minWidth: table.getTotalSize()
+                                         }}
+-                                        bg={virtualRow.index % 2 === 0 ? 'baas.neutral.900' : 'baas.neutral.500'}
+                                     >
+                                         {row.getVisibleCells().map((cell) => (
+                                             <TableCell key={cell.id} cell={cell} />
