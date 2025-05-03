@@ -1,12 +1,13 @@
 import { useAccountInfos } from '~/hooks'
 
-import { Navigate } from 'react-router-dom'
+const authAppUrl = import.meta.env.VITE_AUTH_APP_URL || '//'
 
 function Landing() {
     const [accountInfos] = useAccountInfos()
 
     if (accountInfos.data) {
-        return <Navigate to="/login" />
+        window.location.href = `${authAppUrl}/sign-in?redirectTo=${window.location.href}`
+        return null
     } else {
         const w = window as Window
         w.location.href = 'https://meetingbaas.com/'

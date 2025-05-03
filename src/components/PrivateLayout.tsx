@@ -1,6 +1,8 @@
-import { Navigate, Outlet, useLocation } from 'react-router-dom'
+import { Outlet, useLocation } from 'react-router-dom'
 import { useAccountInfos } from '~/hooks'
 import { Layout } from '~/Layout/Layout'
+
+const authAppUrl = import.meta.env.VITE_AUTH_APP_URL || '//'
 
 const PrivateLayout = () => {
     const [account] = useAccountInfos()
@@ -11,7 +13,8 @@ const PrivateLayout = () => {
     }
 
     if (!account.data) {
-        return <Navigate to="/login" state={{ from: location }} replace />
+        window.location.href = `${authAppUrl}/sign-in?redirectTo=${window.location.href}`
+        return null
     }
 
     return <Outlet />

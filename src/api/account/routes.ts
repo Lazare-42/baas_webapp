@@ -4,6 +4,7 @@ import {
     ApiKeyResponse,
     LoginParams,
     LoginResponse,
+    Session,
 } from './type'
 
 // TODO: remove?
@@ -62,7 +63,12 @@ export async function sendResetPasswordLink(email: string): Promise<void> {
 }
 
 export async function logoutApi() {
-    await axios.post('/accounts/logout/', {})
+    const authAppUrl = import.meta.env.VITE_AUTH_APP_URL
+    if (!authAppUrl) {
+        throw new Error('Auth app URL is not configured')
+    }
+
+    await axios.post(`${authAppUrl}/api/auth/sign-out`, {})
 }
 
 export async function loginApi(
@@ -96,4 +102,19 @@ export async function signupApi(
 
 export async function checkJwt(): Promise<void> {
     return (await axios.get(`/accounts/check_jwt`)).data
+}
+
+export async function getAuthSession(): Promise<Session | null> {
+    const authAppUrl = import.meta.env.VITE_AUTH_APP_URL
+    if (!authAppUrl) {
+        throw new Error('Auth app URL is not configured')
+    }
+
+    const response = await axios.get(`${authAppUrl}/api/auth/get-session`)
+
+    if (!response?.data?.session) {
+        throw new Error('Session not found')
+    }
+
+    return response.data.session as Session
 }
