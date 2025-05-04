@@ -6,7 +6,8 @@ function Landing() {
     const [accountInfos] = useAccountInfos()
 
     if (accountInfos.data) {
-        window.location.href = `${authAppUrl}/sign-in?redirectTo=${window.location.href}`
+        const current = encodeURIComponent(window.location.href)
+        window.location.replace(`${authAppUrl}/sign-in?redirectTo=${current}`)
         return null
     } else {
         const w = window as Window

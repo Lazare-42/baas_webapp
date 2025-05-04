@@ -116,5 +116,6 @@ export async function getAuthSession(): Promise<Session | null> {
         throw new Error('Session not found')
     }
 
-    return response.data.session as Session
+    const session: Session = response.data.session
+    return session
 }

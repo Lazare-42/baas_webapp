@@ -61,9 +61,5 @@ export function AuthenticatedRoute({
         return null
     }
 
-    if (auth.isAuthenticated) {
-        return <Navigate to="/logs" replace />
-    }
-
     return <>{children}</>
 }

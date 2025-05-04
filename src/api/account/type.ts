@@ -57,35 +57,34 @@ export type RegisterParams = {
 }
 
 // Session object returned from auth app
-
 export type User = {
-    name: string;
-    email: string;
-    emailVerified: boolean;
-    image: string | null;
-    createdAt: string;
-    updatedAt: string;
-    firstname: string;
-    lastname: string | null;
-    status: number;
-    phone: string | null;
-    companyName: string | null;
-    companySize: string | null;
-    usagePlanned: string | null;
-    botsApiKey: string | null;
-    id: string;
-  };
-  
-  export type Session = {
+    name: string
+    email: string
+    emailVerified: boolean
+    image: string | null
+    createdAt: string
+    updatedAt: string
+    firstname: string
+    lastname: string | null
+    status: number
+    phone: string | null
+    companyName: string | null
+    companySize: string | null
+    usagePlanned: string | null
+    botsApiKey: string | null
+    id: string
+}
+
+export type Session = {
     session: {
-      expiresAt: string;
-      token: string;
-      createdAt: string;
-      updatedAt: string;
-      ipAddress: string;
-      userAgent: string;
-      userId: string;
-      id: string;
-    };
-    user: User;
-  };
+        expiresAt: string
+        token: string
+        createdAt: string
+        updatedAt: string
+        ipAddress: string
+        userAgent: string
+        userId: string
+        id: string
+    }
+    user: User
+}
