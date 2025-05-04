@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Navigate, useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import { useAuth } from '../AuthContext'
 import { checkJwt, getAuthSession } from '~/api/account/routes'
 import { Flex, Spinner } from '@chakra-ui/react'
@@ -25,10 +25,9 @@ export function AuthenticatedRoute({
             try {
                 const session = await getAuthSession()
                 if (session) {
-                    // Au lieu d'appeler login, on met à jour directement isAuthenticated
-                    auth.setIsAuthenticated(true)
                     // Additional check to verify JWT with backend
                     await checkJwt()
+                    auth.setIsAuthenticated(true)
                 } else {
                     auth.setIsAuthenticated(false)
                 }
@@ -57,7 +56,8 @@ export function AuthenticatedRoute({
     }
 
     if (!auth.isAuthenticated && !isPublicRoute) {
-        window.location.href = `${authAppUrl}/sign-in?redirectTo=${window.location.href}`
+        const current = encodeURIComponent(window.location.href)
+        window.location.replace(`${authAppUrl}/sign-in?redirectTo=${current}`)
         return null
     }
 
