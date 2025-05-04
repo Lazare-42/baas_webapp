@@ -68,7 +68,13 @@ export async function logoutApi() {
         throw new Error('Auth app URL is not configured')
     }
 
-    await axios.post(`${authAppUrl}/api/auth/sign-out`, {})
+    try {
+        await axios.post(`${authAppUrl}/api/auth/sign-out`, {})
+    } catch (error) {
+        throw new Error('Failed to sign out from auth app', {
+            cause: error,
+        })
+    }
 }
 
 export async function loginApi(
@@ -116,6 +122,6 @@ export async function getAuthSession(): Promise<Session | null> {
         throw new Error('Session not found')
     }
 
-    const session: Session = response.data.session
-    return session
+    const session = response.data.session
+    return session as Session
 }

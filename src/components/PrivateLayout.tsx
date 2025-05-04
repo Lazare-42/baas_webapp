@@ -22,6 +22,7 @@ const PrivateLayout = () => {
     }, [account.data])
 
     if (!account.data) {
+        // Return null to avoid rendering anything while redirecting to auth app
         return null
     }
 
