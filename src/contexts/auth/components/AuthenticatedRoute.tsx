@@ -3,9 +3,8 @@ import { useLocation } from 'react-router-dom'
 import { useAuth } from '../AuthContext'
 import { checkJwt, getAuthSession } from '~/api/account/routes'
 import { Flex, Spinner } from '@chakra-ui/react'
-import { getAuthAppUrl } from '~/utils/authAppUrl'
+import { getSignInUrl } from '~/utils/authAppUrl'
 
-const authAppUrl = getAuthAppUrl()
 const PUBLIC_PATHS = ['/'] as const
 
 export function AuthenticatedRoute({
@@ -53,8 +52,9 @@ export function AuthenticatedRoute({
     }
 
     if (!auth.isAuthenticated && !isPublicRoute) {
-        const current = encodeURIComponent(window.location.href)
-        window.location.replace(`${authAppUrl}/sign-in?redirectTo=${current}`)
+        const signInUrl = getSignInUrl()
+        window.location.replace(signInUrl)
+        // Returning null to avoid rendering anything while redirecting to auth app
         return null
     }
 

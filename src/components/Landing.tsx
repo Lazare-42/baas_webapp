@@ -1,14 +1,13 @@
 import { useAccountInfos } from '~/hooks'
-import { getAuthAppUrl } from '~/utils/authAppUrl'
-
-const authAppUrl = getAuthAppUrl()
+import { getSignInUrl } from '~/utils/authAppUrl'
 
 function Landing() {
     const [accountInfos] = useAccountInfos()
 
     if (accountInfos.data) {
-        const current = encodeURIComponent(window.location.href)
-        window.location.replace(`${authAppUrl}/sign-in?redirectTo=${current}`)
+        const signInUrl = getSignInUrl()
+        window.location.replace(signInUrl)
+        // Returning null to avoid rendering anything while redirecting to auth app
         return null
     } else {
         const w = window as Window
