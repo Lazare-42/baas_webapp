@@ -135,7 +135,7 @@ const InnerMenu = () => {
                     <LongTextIcon color={'primary.500'} boxSize={'18px'} />
                 }
                 onClick={() => {
-                    router.push('/')
+                    router.push('/logs')
                 }}
             >
                 Logs
@@ -169,7 +169,7 @@ const InnerMenu = () => {
             <BaasButton
                 onClick={async () => {
                     await logoutApi()
-                    router.push('/login')
+                    window.location.href = '/'
                 }}
                 leftIcon={<ExitIcon color="primary.500" boxSize={'18px'} />}
             >

@@ -5,7 +5,7 @@ import { checkJwt, getAuthSession } from '~/api/account/routes'
 import { Flex, Spinner } from '@chakra-ui/react'
 
 const authAppUrl = import.meta.env.VITE_AUTH_APP_URL || '//'
-const PUBLIC_PATHS = ['/login', '/signup', '/'] as const
+const PUBLIC_PATHS = ['/'] as const
 
 export function AuthenticatedRoute({
     children,
@@ -27,13 +27,8 @@ export function AuthenticatedRoute({
                 if (session) {
                     // Au lieu d'appeler login, on met à jour directement isAuthenticated
                     auth.setIsAuthenticated(true)
-                    // This is not required anymore since get session would also verify the session
-                    try {
-                        const jwt = await checkJwt()
-                        console.log(jwt)
-                    } catch (e) {
-                        console.error('Error checking jwt', e)
-                    }
+                    // Additional check to verify JWT with backend
+                    await checkJwt()
                 } else {
                     auth.setIsAuthenticated(false)
                 }
@@ -66,8 +61,8 @@ export function AuthenticatedRoute({
         return null
     }
 
-    if (auth.isAuthenticated && location.pathname === '/login') {
-        return <Navigate to="/" replace />
+    if (auth.isAuthenticated) {
+        return <Navigate to="/logs" replace />
     }
 
     return <>{children}</>
