@@ -3,8 +3,9 @@ import { useLocation } from 'react-router-dom'
 import { useAuth } from '../AuthContext'
 import { checkJwt, getAuthSession } from '~/api/account/routes'
 import { Flex, Spinner } from '@chakra-ui/react'
+import { getAuthAppUrl } from '~/utils/authAppUrl'
 
-const authAppUrl = import.meta.env.VITE_AUTH_APP_URL || '//'
+const authAppUrl = getAuthAppUrl()
 const PUBLIC_PATHS = ['/'] as const
 
 export function AuthenticatedRoute({
@@ -23,14 +24,10 @@ export function AuthenticatedRoute({
     useEffect(() => {
         const verifyAuth = async () => {
             try {
-                const session = await getAuthSession()
-                if (session) {
-                    // Additional check to verify JWT with backend
-                    await checkJwt()
-                    auth.setIsAuthenticated(true)
-                } else {
-                    auth.setIsAuthenticated(false)
-                }
+                await getAuthSession()
+                // Additional check to verify JWT with backend
+                await checkJwt()
+                auth.setIsAuthenticated(true)
             } catch (error) {
                 auth.setIsAuthenticated(false)
             } finally {

@@ -6,6 +6,7 @@ import {
     LoginResponse,
     Session,
 } from './type'
+import { getAuthAppUrl } from '~/utils/authAppUrl'
 
 // TODO: remove?
 export async function resendEmail(email: string, search: string) {
@@ -63,18 +64,9 @@ export async function sendResetPasswordLink(email: string): Promise<void> {
 }
 
 export async function logoutApi() {
-    const authAppUrl = import.meta.env.VITE_AUTH_APP_URL
-    if (!authAppUrl) {
-        throw new Error('Auth app URL is not configured')
-    }
+    const authAppUrl = getAuthAppUrl()
 
-    try {
-        await axios.post(`${authAppUrl}/api/auth/sign-out`, {})
-    } catch (error) {
-        throw new Error('Failed to sign out from auth app', {
-            cause: error,
-        })
-    }
+    await axios.post(`${authAppUrl}/api/auth/sign-out`, {})
 }
 
 export async function loginApi(
@@ -110,11 +102,8 @@ export async function checkJwt(): Promise<void> {
     return (await axios.get(`/accounts/check_jwt`)).data
 }
 
-export async function getAuthSession(): Promise<Session | null> {
-    const authAppUrl = import.meta.env.VITE_AUTH_APP_URL
-    if (!authAppUrl) {
-        throw new Error('Auth app URL is not configured')
-    }
+export async function getAuthSession(): Promise<Session> {
+    const authAppUrl = getAuthAppUrl()
 
     const response = await axios.get(`${authAppUrl}/api/auth/get-session`)
 

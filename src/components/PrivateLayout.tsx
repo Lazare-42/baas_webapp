@@ -2,8 +2,9 @@ import { useEffect } from 'react'
 import { Outlet } from 'react-router-dom'
 import { useAccountInfos } from '~/hooks'
 import { Layout } from '~/Layout/Layout'
+import { getAuthAppUrl } from '~/utils/authAppUrl'
 
-const authAppUrl = import.meta.env.VITE_AUTH_APP_URL || '//'
+const authAppUrl = getAuthAppUrl()
 
 const PrivateLayout = () => {
     const [account] = useAccountInfos()

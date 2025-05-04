@@ -1,6 +1,7 @@
 import { useAccountInfos } from '~/hooks'
+import { getAuthAppUrl } from '~/utils/authAppUrl'
 
-const authAppUrl = import.meta.env.VITE_AUTH_APP_URL || '//'
+const authAppUrl = getAuthAppUrl()
 
 function Landing() {
     const [accountInfos] = useAccountInfos()
