@@ -3,7 +3,7 @@ import { Suspense } from 'react'
 import { CookiesProvider } from 'react-cookie'
 import * as ReactDOM from 'react-dom/client'
 import { HelmetProvider } from 'react-helmet-async'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { AccountInfosProvider } from '~/hooks'
 import theme from './theme'
 import './theme/styles/global.css'
@@ -27,9 +27,7 @@ import { SubscriptionProvider } from './contexts/subscription/SubscriptionProvid
 import { BillingPage } from './Page/BillingPage'
 import { ConsumptionPage } from './Page/ConsumptionPage'
 import { CredentialsPage } from './Page/CredentialsPage'
-import { LoginPage } from './Page/LoginPage'
 import { LogPage } from './Page/LogPage'
-import { RegisterPage } from './Page/RegisterPage'
 import { SEO } from './utils/Seo'
 
 if (import.meta.env.MODE === 'prod') {
@@ -41,8 +39,6 @@ function AppRoutes() {
     return (
         <Routes>
             {/* Routes publiques */}
-            <Route path="login" element={<LoginPage />} />
-            <Route path="signup" element={<RegisterPage />} />
             <Route path="/*" element={<Landing />} />
             {import.meta.env.DEV && (
                 <Route path="icons" element={<IconViewer />} />
@@ -66,7 +62,7 @@ function AppRoutes() {
                     </AuthenticatedRoute>
                 }
             >
-                <Route path="/" element={<LogPage />} />
+                <Route path="/" element={<Navigate to="/logs" replace />} />
                 <Route path="/logs" element={<LogPage />} />
                 <Route path="/credentials" element={<CredentialsPage />} />
                 <Route path="/usage" element={<ConsumptionPage />} />

@@ -4,15 +4,9 @@ import {
     ApiKeyResponse,
     LoginParams,
     LoginResponse,
+    Session,
 } from './type'
-
-// TODO: remove?
-export async function resendEmail(email: string, search: string) {
-    await axios.post(`/accounts/resend_mail${search}`, {
-        email: email,
-        special_code: null,
-    })
-}
+import { getAuthAppUrl } from '~/utils/authAppUrl'
 
 export async function getWebhookUrl() {
     const response = await axios.get(`/accounts/webhook_url`)
@@ -33,67 +27,33 @@ export async function resetPassword(
     await axios.post(`accounts/reset_password/${token}`, data)
 }
 
-export async function changePassword(data: {
-    new_password: string
-    old_password: string
-}) {
-    await axios.post('/accounts/change_password/', data)
-}
-
-export async function changeEmail(data: {
-    new_email: string
-    password: string
-}) {
-    await axios.post('/accounts/change_email/', data)
-}
-
-export async function checkPassword(password: string) {
-    await axios.post('/accounts/check_password', { password })
-}
-
 export async function getAccountInfos(): Promise<AccountInfos> {
     return (await axios.get(`accounts/infos`)).data
 }
 
-export async function sendResetPasswordLink(email: string): Promise<void> {
-    return await axios.post('/accounts/send-reset-password-link/', {
-        email: email,
-    })
-}
-
 export async function logoutApi() {
-    await axios.post('/accounts/logout/', {})
-}
+    const authAppUrl = getAuthAppUrl()
 
-export async function loginApi(
-    data: LoginParams,
-    search?: string,
-): Promise<LoginResponse> {
-    return (
-        await axios.post(`/accounts/login${search != null ? search : ''}`, data)
-    ).data
+    await axios.post(`${authAppUrl}/api/auth/sign-out`, {})
 }
 
 export async function fetchApiKey(): Promise<ApiKeyResponse> {
     return (await axios.get('/accounts/api_key')).data
 }
 
-export async function signupApi(
-    data: {
-        email: string
-        lang?: string
-        google_token_id?: string
-    },
-    search?: string,
-): Promise<{ token: string }> {
-    return (
-        await axios.post(
-            `/accounts/getstarted${search != null ? search : ''}`,
-            data,
-        )
-    ).data
-}
-
 export async function checkJwt(): Promise<void> {
     return (await axios.get(`/accounts/check_jwt`)).data
+}
+
+export async function getAuthSession(): Promise<Session> {
+    const authAppUrl = getAuthAppUrl()
+
+    const response = await axios.get(`${authAppUrl}/api/auth/get-session`)
+
+    if (!response?.data?.session) {
+        throw new Error('Session not found')
+    }
+
+    const session = response.data.session
+    return session as Session
 }

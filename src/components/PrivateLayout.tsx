@@ -1,17 +1,20 @@
-import { Navigate, Outlet, useLocation } from 'react-router-dom'
+import { Outlet } from 'react-router-dom'
 import { useAccountInfos } from '~/hooks'
 import { Layout } from '~/Layout/Layout'
+import { getSignInUrl } from '~/utils/authAppUrl'
 
 const PrivateLayout = () => {
     const [account] = useAccountInfos()
-    const location = useLocation()
 
     if (account.isLoading) {
         return <Layout children={<></>} />
     }
 
     if (!account.data) {
-        return <Navigate to="/login" state={{ from: location }} replace />
+        const signInUrl = getSignInUrl()
+        window.location.replace(signInUrl)
+        // Returning null to avoid rendering anything while redirecting to auth app
+        return null
     }
 
     return <Outlet />

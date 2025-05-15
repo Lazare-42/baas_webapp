@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react'
-import { Navigate, useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import { useAuth } from '../AuthContext'
-import { checkJwt } from '~/api/account/routes'
+import { checkJwt, getAuthSession } from '~/api/account/routes'
+import { Flex, Spinner } from '@chakra-ui/react'
+import { getSignInUrl } from '~/utils/authAppUrl'
 
-const PUBLIC_PATHS = ['/login', '/signup', '/'] as const
+const PUBLIC_PATHS = ['/'] as const
 
 export function AuthenticatedRoute({
     children,
@@ -21,16 +23,11 @@ export function AuthenticatedRoute({
     useEffect(() => {
         const verifyAuth = async () => {
             try {
-                const token = localStorage.getItem('auth_token')
-                if (token) {
-                    await checkJwt()
-                    // Au lieu d'appeler login, on met à jour directement isAuthenticated
-                    auth.setIsAuthenticated(true)
-                } else {
-                    auth.setIsAuthenticated(false)
-                }
+                await getAuthSession()
+                // Additional check to verify JWT with backend
+                await checkJwt()
+                auth.setIsAuthenticated(true)
             } catch (error) {
-                localStorage.removeItem('auth_token')
                 auth.setIsAuthenticated(false)
             } finally {
                 setIsLoading(false)
@@ -41,15 +38,24 @@ export function AuthenticatedRoute({
     }, [auth])
 
     if (isLoading) {
-        return <div>Loading...</div>
+        return (
+            <Flex
+                flexDir="column"
+                w="100vw"
+                h="100vh"
+                justifyContent="center"
+                alignItems="center"
+            >
+                <Spinner color="teal.500" />
+            </Flex>
+        )
     }
 
     if (!auth.isAuthenticated && !isPublicRoute) {
-        return <Navigate to="/login" replace state={{ from: location }} />
-    }
-
-    if (auth.isAuthenticated && location.pathname === '/login') {
-        return <Navigate to="/" replace />
+        const signInUrl = getSignInUrl()
+        window.location.replace(signInUrl)
+        // Returning null to avoid rendering anything while redirecting to auth app
+        return null
     }
 
     return <>{children}</>
