@@ -5,7 +5,6 @@ import { ArrowBackIcon } from '@chakra-ui/icons'
 import { MediaPlayerInstance } from '@vidstack/react'
 import { useParams } from 'react-router-dom'
 import { DownloadIcon } from '~/assets/icons'
-import { useRouter } from '~/hooks'
 import { useMeetingData } from '~/hooks/useMeetingData'
 import { useRequest } from '~/hooks/useRequest'
 import TranscriptComponent from './Transcript'
@@ -22,8 +21,6 @@ export const Viewer = () => {
     })
     const transcriptRef = useRef<HTMLDivElement>(null)
     const { botId: botIdParam } = useParams<{ botId: string }>()
-
-    const router = useRouter()
 
     useEffect(() => {
         if (botIdParam) {
@@ -121,6 +118,24 @@ export const Viewer = () => {
         return <Text color={'neutral.50'}>Loading URL parameters...</Text>
     }
 
+    /**
+     * Navigate back to the logs page. If the page is opened in a new tab,
+     * close the current tab and navigate to the logs page.
+     * If the page is opened directly, navigate to the logs page.
+     */
+    const handleBackClick = () => {
+        const logsUrl = 'https://logs.meetingbaas.com/'
+        if (window.opener && !window.opener.closed) {
+            window.close()
+            setTimeout(() => {
+                // Just in case close() is blocked by the browser
+                window.location.href = logsUrl
+            }, 500)
+        } else {
+            window.location.href = logsUrl
+        }
+    }
+
     return (
         <Flex h="100vh" w="100vw" flexDir={'row'} bg="neutral.700">
             <Container
@@ -136,10 +151,13 @@ export const Viewer = () => {
                 rounded={'lg'}
                 // bg="neutral.900"
             >
-                {loading && <Text>Loading meeting data...</Text>}
-                {error && <Text>Error: {error.message}</Text>}
-                {!meetingData && <Text>No meeting data available</Text>}
-                {meetingData && (
+                {loading ? (
+                    <Text color={'neutral.50'}>Loading meeting data...</Text>
+                ) : error ? (
+                    <Text color={'error.500'}>Error: {error.message}</Text>
+                ) : !meetingData ? (
+                    <Text color={'warning.500'}>No meeting data available</Text>
+                ) : (
                     <>
                         <Flex w="full" justify={'space-between'}>
                             <Flex p="1">
@@ -147,9 +165,7 @@ export const Viewer = () => {
                                     variant={'chartType'}
                                     isActive={true}
                                     color="neutral.900"
-                                    onClick={() => {
-                                        router.push('/Logs')
-                                    }}
+                                    onClick={handleBackClick}
                                 >
                                     <ArrowBackIcon />
                                 </Button>

@@ -20,7 +20,7 @@ import { Props as DayzedHookProps } from 'dayzed'
 import React, { useState } from 'react'
 import FocusLock from 'react-focus-lock'
 
-import { getPresetRange } from '~/contexts/logs/utils/date'
+import { getPresetRange } from '~/contexts/consumption/utils/date'
 import { CalendarIcon } from './components/calendarIcon'
 import { CalendarPanel } from './components/calendarPanel'
 import { VariantProps } from './single'

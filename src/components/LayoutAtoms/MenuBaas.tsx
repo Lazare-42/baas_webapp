@@ -104,6 +104,20 @@ const InnerMenu = () => {
             >
                 Documentation
             </BaasButton>
+            <BaasButton
+                leftIcon={
+                    <LongTextIcon color={'primary.500'} boxSize={'18px'} />
+                }
+                onClick={() => {
+                    window.open(
+                        'https://logs.meetingbaas.com/',
+                        '_blank',
+                        'noopener,noreferrer',
+                    )
+                }}
+            >
+                Logs
+            </BaasButton>
             <Divider
                 borderColor={'transparent'}
                 bg={'neutral.500'}
@@ -127,20 +141,6 @@ const InnerMenu = () => {
             >
                 Credentials
             </BaasButton>
-            <BaasButton
-                isActive={
-                    router.pathname === '/' || router.pathname.endsWith('logs')
-                }
-                leftIcon={
-                    <LongTextIcon color={'primary.500'} boxSize={'18px'} />
-                }
-                onClick={() => {
-                    router.push('/logs')
-                }}
-            >
-                Logs
-            </BaasButton>
-
             <BaasButton
                 isActive={router.pathname.endsWith('usage')}
                 onClick={() => {
