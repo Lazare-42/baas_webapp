@@ -43,6 +43,7 @@ export const Menu = () => {
                 base: 'neutral.700',
                 lg: 'neutral.500',
             }}
+            display="none" // Keep it hidden as it causes authentication issues if removed
             gap="2"
             p="3"
         >
