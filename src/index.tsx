@@ -22,12 +22,10 @@ import { ConsumptionProvider } from './contexts/consumption/ConsumptionProvider'
 import { AuthProvider } from './contexts/auth/AuthProvider'
 import { AuthenticatedRoute } from './contexts/auth/components/AuthenticatedRoute'
 import { CredentialsProvider } from './contexts/credentials/CredentialsProvider'
-import { LogsProvider } from './contexts/logs/LogsProvider'
 import { SubscriptionProvider } from './contexts/subscription/SubscriptionProvider'
 import { BillingPage } from './Page/BillingPage'
 import { ConsumptionPage } from './Page/ConsumptionPage'
 import { CredentialsPage } from './Page/CredentialsPage'
-import { LogPage } from './Page/LogPage'
 import { SEO } from './utils/Seo'
 
 if (import.meta.env.MODE === 'prod') {
@@ -50,20 +48,20 @@ function AppRoutes() {
                     <AuthenticatedRoute>
                         <AccountInfosProvider>
                             <CredentialsProvider>
-                                <LogsProvider>
-                                    <SubscriptionProvider>
-                                        <ConsumptionProvider>
-                                            <PrivateLayout />
-                                        </ConsumptionProvider>
-                                    </SubscriptionProvider>
-                                </LogsProvider>
+                                <SubscriptionProvider>
+                                    <ConsumptionProvider>
+                                        <PrivateLayout />
+                                    </ConsumptionProvider>
+                                </SubscriptionProvider>
                             </CredentialsProvider>
                         </AccountInfosProvider>
                     </AuthenticatedRoute>
                 }
             >
-                <Route path="/" element={<Navigate to="/logs" replace />} />
-                <Route path="/logs" element={<LogPage />} />
+                <Route
+                    path="/"
+                    element={<Navigate to="/credentials" replace />}
+                />
                 <Route path="/credentials" element={<CredentialsPage />} />
                 <Route path="/usage" element={<ConsumptionPage />} />
                 <Route path="/billing" element={<BillingPage />} />

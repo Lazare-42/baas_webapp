@@ -1,7 +1,7 @@
 import { Flex, Heading, Text, Wrap } from '@chakra-ui/react'
 
 import React from 'react'
-import { Transcript } from '~/api/bots/types'
+import { Transcript } from '~/api/api'
 
 interface TranscriptProps {
     transcript: Transcript[]

@@ -56,7 +56,7 @@ type BotData = {
     transcripts: Transcript[]
 }
 
-type Transcript = {
+export type Transcript = {
     speaker: string
     words: {
         start_time: number
